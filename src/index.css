@@ -1,0 +1,244 @@
+@import "tailwindcss";
+
+:root {
+  /* ── PAGE BACKGROUND — soft cream ── */
+  --bg-base: #faf8f2;
+
+  /* ── ALL OTHER SURFACES — original light values, unchanged ── */
+  --color-accent: #f5c518;
+  --color-black: #1a1a1a;
+  --color-white: #ffffff;
+  --color-cream: #faf8f2;
+  --color-tag-green: #a8e6a3;
+  --color-muted: #666666;
+
+  /* ── Retro border + shadow — original black system ── */
+  --border-base: 2px solid #1a1a1a;
+  --border-thick: 3px solid #1a1a1a;
+  --shadow-retro: 3px 3px 0 #1a1a1a;
+  --shadow-retro-lg: 5px 5px 0 #1a1a1a;
+  --shadow-hover: 5px 5px 0 #1a1a1a;
+
+  /* ── Spacing ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+
+  /* ── Radius — blocky ── */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  /* ── Typography ── */
+  --font-display: "Space Grotesk", "DM Sans", sans-serif;
+  --font-body: "DM Sans", "Manrope", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* ── Global Background & Typography ── */
+body,
+html {
+  background-color: #faf8f2;
+  color: #1a1a1a;
+  font-family: var(--font-body);
+}
+
+#root,
+.page-wrapper,
+.app-layout {
+  background-color: #faf8f2;
+  background-image:
+    radial-gradient(
+      ellipse 80% 60% at 0% 50%,
+      rgba(245, 197, 24, 0.15) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 70% 60% at 100% 50%,
+      rgba(160, 210, 240, 0.2) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 50% 100%,
+      rgba(255, 180, 180, 0.18) 0%,
+      transparent 65%
+    );
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.page-title {
+  color: #1a1a1a;
+  font-weight: 800;
+}
+
+.page-subtitle {
+  color: #555555;
+  font-weight: 400;
+}
+
+.results-count {
+  color: #555555;
+  font-size: 0.875rem;
+}
+
+/* ── Navbar — white, sits on top of page bg ── */
+.navbar {
+  background: #ffffff;
+  border-bottom: 3px solid #1a1a1a;
+  color: #1a1a1a; /* Text on white surfaces must be dark */
+}
+
+/* ── Retro card — white, floats over dark page bg ── */
+.retro-card {
+  background: #ffffff;
+  border: var(--border-thick);
+  box-shadow: var(--shadow-retro);
+  border-radius: var(--radius-md);
+  color: #1a1a1a; /* Text on white surfaces must be dark */
+}
+.retro-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-hover);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+/* ── Input fields — white, inside white card panels ── */
+.input-field {
+  background: #ffffff;
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  color: #1a1a1a;
+  padding: 10px 14px;
+}
+.input-field::placeholder {
+  color: #999999;
+}
+.input-field:focus {
+  outline: none;
+  border: 2px solid #f5c518; /* yellow focus ring */
+}
+
+/* ── Primary CTA button — unchanged ── */
+.btn--primary {
+  background: #f5c518;
+  color: #1a1a1a;
+  border: var(--border-thick);
+  box-shadow: var(--shadow-retro);
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    transform 80ms,
+    box-shadow 80ms;
+}
+.btn--primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #1a1a1a;
+}
+
+/* ── Ghost button — unchanged, always on white card surface ── */
+.btn--ghost {
+  background: transparent;
+  color: #1a1a1a;
+  border: var(--border-thick);
+  box-shadow: var(--shadow-retro);
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.btn--ghost:hover {
+  border: var(--border-strong); /* yellow border on hover */
+  box-shadow: var(--shadow-retro); /* yellow shadow on hover */
+  color: var(--color-accent); /* yellow text on hover */
+}
+
+/* ── Navbar — dark version ── */
+.navbar {
+  background: var(--bg-surface);
+  border-bottom: 3px solid var(--color-accent); /* yellow bottom stripe */
+  color: var(--text-primary);
+}
+.nav-link {
+  color: var(--text-primary);
+}
+.nav-link:hover {
+  color: var(--color-accent);
+}
+.nav-link--active {
+  background: var(--color-accent);
+  color: var(--text-on-yellow);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Badges ── */
+.badge--category {
+  background: var(--color-accent);
+  color: var(--text-on-yellow);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+.badge--public {
+  background: var(--color-tag-green);
+  color: var(--text-on-green);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+/* Utility classes for layout */
+.layout-split {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .layout-split {
+    grid-template-columns: 60% 40%;
+  }
+}
+
+/* Helper utilities */
+.text-display {
+  font-family: var(--font-display);
+}
+.text-body {
+  font-family: var(--font-body);
+}
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}

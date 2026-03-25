@@ -1,0 +1,41 @@
+/* Minimal RetroUI theme variables (from RetroUI docs)
+   - Import this file in your app root (e.g., in `main.jsx` or component entry)
+*/
+:root {
+  --font-head: "Archivo Black", sans-serif;
+  --font-sans: "Space Grotesk", sans-serif;
+  --radius: 0;
+  --border: #000;
+  --background: #fff;
+  --foreground: #000;
+  --card: #fff;
+  --card-foreground: #000;
+  --primary: #ffdb33;
+  --primary-hover: #ffcc00;
+  --primary-foreground: #000;
+  --secondary: #000;
+  --secondary-foreground: #fff;
+  --muted: #aeaeae;
+  --muted-foreground: #5a5a5a;
+  --accent: #fae583;
+  --accent-foreground: #000;
+  --destructive: #e63946;
+  --destructive-foreground: #fff;
+}
+
+.retroui-btn {
+  display: inline-block;
+  font-family: var(--font-head);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: 2px solid var(--border);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  box-shadow: 3px 3px 0 0 var(--border);
+  cursor: pointer;
+  text-transform: none;
+}
+
+.retroui-btn:active {
+  transform: translateY(1px);
+}

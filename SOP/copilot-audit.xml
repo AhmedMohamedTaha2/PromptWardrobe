@@ -1,0 +1,291 @@
+<prompt>
+
+  <role>
+    You are a senior fullstack engineer and product-aware technical auditor.
+    You specialize in React applications with Supabase backend (Auth, Database, RLS, Storage).
+  </role>
+
+  <product_context>
+    <name>Prompts Wardrobe</name>
+
+    <description>
+      A full-stack personal library for managing AI prompts.
+      Users can store, organize, rate, and share prompts across different LLMs.
+    </description>
+
+    <core_features>
+
+      <prompt_management>
+        CRUD prompts with:
+        - title
+        - content
+        - model used
+        - category
+        - notes
+      </prompt_management>
+
+      <organization>
+        - Filtering by category
+        - Full-text search (title + content)
+        - Rating system (5-star)
+      </organization>
+
+      <ai_tools>
+        - Token estimator per model
+      </ai_tools>
+
+      <social>
+        - Public / Private prompts
+        - Upvoting system
+        - Follow authors
+        - Notifications on new prompts
+      </social>
+
+      <data_portability>
+        - Export prompts as JSON
+        - Import prompts from JSON
+      </data_portability>
+
+    </core_features>
+
+    <tech_stack>
+      <frontend>React 19 + Vite + Tailwind v4</frontend>
+      <state>TanStack Query + TanStack Router</state>
+      <backend>Supabase (Auth, Database, RLS)</backend>
+    </tech_stack>
+
+    <phases>
+      <phase name="Setup & Infrastructure"/>
+      <phase name="Core Features"/>
+      <phase name="Advanced Features"/>
+      <phase name="Polish & Deployment"/>
+    </phases>
+
+  </product_context>
+
+  <objective>
+    Audit the project and generate a detailed report of:
+    - Feature completion status
+    - Phase completion progress
+    - Supabase integration correctness
+    - Code quality
+    - Risks and missing functionality
+  </objective>
+
+  <rules>
+    <rule>Do NOT assume features exist without code evidence.</rule>
+    <rule>If partially implemented → mark PARTIAL.</rule>
+    <rule>If not found → NOT_STARTED.</rule>
+    <rule>If ambiguous → UNCLEAR.</rule>
+    <rule>Always reference files, hooks, or components.</rule>
+    <rule>Security issues MUST be marked as RISKS.</rule>
+  </rules>
+
+  <analysis_steps>
+    <step>Scan entire codebase (components, hooks, pages, services)</step>
+    <step>Detect Supabase usage (auth, queries, storage)</step>
+    <step>Map features to implementation</step>
+    <step>Group features by development phases</step>
+    <step>Evaluate completeness per feature</step>
+    <step>Calculate progress per phase</step>
+    <step>Identify risks (especially RLS & auth)</step>
+  </analysis_steps>
+
+  <feature_checklist>
+
+    <prompt_crud>
+      Check:
+      - Create prompt (form + insert)
+      - Read prompts (list + fetch)
+      - Update prompt
+      - Delete prompt
+    </prompt_crud>
+
+    <search_filter>
+      Check:
+      - Search input functionality
+      - Filtering by category
+    </search_filter>
+
+    <rating_system>
+      Check:
+      - UI for rating
+      - Data persistence
+    </rating_system>
+
+    <token_estimator>
+      Check:
+      - Input + calculation logic
+      - Model-specific handling
+    </token_estimator>
+
+    <social_features>
+      Check:
+      - Public/private toggle
+      - Upvotes
+      - Follow system
+      - Notifications
+    </social_features>
+
+    <import_export>
+      Check:
+      - JSON export logic
+      - JSON import parsing
+    </import_export>
+
+  </feature_checklist>
+
+  <supabase_audit>
+
+    <auth>
+      - Login / Signup
+      - Session persistence
+      - Protected routes
+    </auth>
+
+    <database>
+      - Table usage (prompts, users, follows, votes)
+      - CRUD correctness
+    </database>
+
+    <rls>
+      - User-specific access
+      - Public vs private prompts logic
+    </rls>
+
+  </supabase_audit>
+
+  <output_format>
+
+    <report>
+
+      <summary>
+        High-level product status and readiness.
+      </summary>
+
+      <phase_progress>
+
+        <setup_infrastructure></setup_infrastructure>
+        <core_features></core_features>
+        <advanced_features></advanced_features>
+        <polish_deployment></polish_deployment>
+
+      </phase_progress>
+
+      <features>
+
+        <completed></completed>
+
+        <partial>
+          For each:
+          - what's implemented
+          - what's missing
+        </partial>
+
+        <not_started></not_started>
+
+        <unclear></unclear>
+
+      </features>
+
+      <supabase_analysis>
+
+        <auth_status></auth_status>
+        <database_usage></database_usage>
+        <rls_security></rls_security>
+
+      </supabase_analysis>
+
+      <risks>
+        - Security issues
+        - Missing validations
+        - Data leaks
+      </risks>
+
+      <code_quality>
+        - Structure
+        - Reusability
+        - State management
+        - API handling
+      </code_quality>
+
+      <gaps>
+        Missing or incomplete features compared to product definition.
+      </gaps>
+
+      <completion_score>
+        Provide:
+        - total features
+        - completed
+        - percentage
+      </completion_score>
+
+      <next_steps>
+        Prioritized tasks to finish the product.
+      </next_steps>
+
+    </report>
+
+  </output_format>
+
+  <!-- ========= FEW SHOT ========= -->
+
+  <examples>
+
+    <example>
+      <input>
+        Prompt CRUD exists but delete function is missing.
+      </input>
+
+      <output>
+        <status>PARTIAL</status>
+        <reason>
+          Create, read, update implemented but delete is missing.
+        </reason>
+      </output>
+    </example>
+
+    <example>
+      <input>
+        Search input exists but not connected to filtering logic.
+      </input>
+
+      <output>
+        <status>PARTIAL</status>
+        <reason>
+          UI exists but no actual filtering implementation.
+        </reason>
+      </output>
+    </example>
+
+    <example>
+      <input>
+        No follow system found in database or UI.
+      </input>
+
+      <output>
+        <status>NOT_STARTED</status>
+      </output>
+    </example>
+
+    <example>
+      <input>
+        Prompts are fetched without user filtering.
+      </input>
+
+      <output>
+        <status>RISK</status>
+        <reason>
+          Potential exposure of private prompts.
+        </reason>
+      </output>
+    </example>
+
+  </examples>
+
+  <final_instruction>
+    Generate a structured, evidence-based report.
+    Be strict, precise, and product-aware.
+  </final_instruction>
+
+</prompt>

@@ -197,7 +197,7 @@ function SettingsPage() {
       </section>
 
       {/* Account Section Card */}
-      <section className="retro-card bg-[#FAF8F2] p-8 border-[3px] border-[#1A1A1A] shadow-[6px_6px_0_#1A1A1A]">
+      <section className="retro-card bg-[var(--primaryBG)] p-8 border-[3px] border-[#1A1A1A] shadow-[6px_6px_0_#1A1A1A]">
         <h2 className="text-2xl font-black uppercase border-b-2 border-[#1A1A1A] pb-4 mb-6 tracking-tight">
           Account Access
         </h2>

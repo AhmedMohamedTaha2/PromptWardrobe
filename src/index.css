@@ -2,13 +2,13 @@
 
 :root {
   /* ── PAGE BACKGROUND — soft cream ── */
-  --bg-base: #faf8f2;
+  --bg-base: var(--primaryBG, #fff5cb);
 
   /* ── ALL OTHER SURFACES — original light values, unchanged ── */
   --color-accent: #f5c518;
   --color-black: #1a1a1a;
   --color-white: #ffffff;
-  --color-cream: #faf8f2;
+  --color-cream: var(--primaryBG, #fff5cb);
   --color-tag-green: #a8e6a3;
   --color-muted: #666666;
 
@@ -40,7 +40,7 @@
 /* ── Global Background & Typography ── */
 body,
 html {
-  background-color: #faf8f2;
+  background-color: var(--primaryBG, #fff5cb);
   color: #1a1a1a;
   font-family: var(--font-body);
 }
@@ -48,7 +48,7 @@ html {
 #root,
 .page-wrapper,
 .app-layout {
-  background-color: #faf8f2;
+  background-color: var(--primaryBG, #fff5cb);
   background-image:
     radial-gradient(
       ellipse 80% 60% at 0% 50%,

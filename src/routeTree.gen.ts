@@ -15,6 +15,8 @@ import { Route as PublicIndexRouteImport } from './routes/public/index'
 import { Route as NotificationsIndexRouteImport } from './routes/notifications/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as BookmarksIndexRouteImport } from './routes/bookmarks/index'
+import { Route as PublicPromptTechniquesRouteImport } from './routes/public/prompt-techniques'
+import { Route as PublicPromptEngineeringRouteImport } from './routes/public/prompt-engineering'
 import { Route as DashboardNewRouteImport } from './routes/dashboard/new'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
@@ -51,6 +53,16 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 const BookmarksIndexRoute = BookmarksIndexRouteImport.update({
   id: '/bookmarks/',
   path: '/bookmarks/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicPromptTechniquesRoute = PublicPromptTechniquesRouteImport.update({
+  id: '/public/prompt-techniques',
+  path: '/public/prompt-techniques',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicPromptEngineeringRoute = PublicPromptEngineeringRouteImport.update({
+  id: '/public/prompt-engineering',
+  path: '/public/prompt-engineering',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardNewRoute = DashboardNewRouteImport.update({
@@ -94,6 +106,8 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/public/prompt-engineering': typeof PublicPromptEngineeringRoute
+  '/public/prompt-techniques': typeof PublicPromptTechniquesRoute
   '/bookmarks/': typeof BookmarksIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/notifications/': typeof NotificationsIndexRoute
@@ -109,6 +123,8 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/public/prompt-engineering': typeof PublicPromptEngineeringRoute
+  '/public/prompt-techniques': typeof PublicPromptTechniquesRoute
   '/bookmarks': typeof BookmarksIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/notifications': typeof NotificationsIndexRoute
@@ -125,6 +141,8 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/new': typeof DashboardNewRoute
+  '/public/prompt-engineering': typeof PublicPromptEngineeringRoute
+  '/public/prompt-techniques': typeof PublicPromptTechniquesRoute
   '/bookmarks/': typeof BookmarksIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/notifications/': typeof NotificationsIndexRoute
@@ -142,6 +160,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/new'
+    | '/public/prompt-engineering'
+    | '/public/prompt-techniques'
     | '/bookmarks/'
     | '/dashboard/'
     | '/notifications/'
@@ -157,6 +177,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/new'
+    | '/public/prompt-engineering'
+    | '/public/prompt-techniques'
     | '/bookmarks'
     | '/dashboard'
     | '/notifications'
@@ -172,6 +194,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/new'
+    | '/public/prompt-engineering'
+    | '/public/prompt-techniques'
     | '/bookmarks/'
     | '/dashboard/'
     | '/notifications/'
@@ -188,6 +212,8 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   DashboardNewRoute: typeof DashboardNewRoute
+  PublicPromptEngineeringRoute: typeof PublicPromptEngineeringRoute
+  PublicPromptTechniquesRoute: typeof PublicPromptTechniquesRoute
   BookmarksIndexRoute: typeof BookmarksIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   NotificationsIndexRoute: typeof NotificationsIndexRoute
@@ -241,6 +267,20 @@ declare module '@tanstack/react-router' {
       path: '/bookmarks'
       fullPath: '/bookmarks/'
       preLoaderRoute: typeof BookmarksIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/public/prompt-techniques': {
+      id: '/public/prompt-techniques'
+      path: '/public/prompt-techniques'
+      fullPath: '/public/prompt-techniques'
+      preLoaderRoute: typeof PublicPromptTechniquesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/public/prompt-engineering': {
+      id: '/public/prompt-engineering'
+      path: '/public/prompt-engineering'
+      fullPath: '/public/prompt-engineering'
+      preLoaderRoute: typeof PublicPromptEngineeringRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/new': {
@@ -300,6 +340,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   DashboardNewRoute: DashboardNewRoute,
+  PublicPromptEngineeringRoute: PublicPromptEngineeringRoute,
+  PublicPromptTechniquesRoute: PublicPromptTechniquesRoute,
   BookmarksIndexRoute: BookmarksIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   NotificationsIndexRoute: NotificationsIndexRoute,

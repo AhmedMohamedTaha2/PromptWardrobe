@@ -98,29 +98,34 @@ export function AppShell({ children }) {
     </Link>
   );
 
+  const isLandingPage = routerState.pathname === "/";
+
   return (
     <div className="min-h-screen bg-transparent">
-      <header className="sticky top-0 z-40 border-b-4 border-black bg-white shadow-[0_4px_0_rgba(0,0,0,1)] text-[#1A1A1A]">
-        <div className="container mx-auto px-4 py-3">
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-black/5 shadow-sm text-brand-soft-black">
+        <div className="mx-auto px-4 py-3 w-full max-w-7xl">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link
-              to="/dashboard"
-              className="flex items-center gap-2 font-black tracking-tight hover:opacity-80 transition-opacity text-[#1A1A1A]"
+              to="/"
+              className="group flex items-center gap-3 font-black tracking-tighter hover:scale-105 transition-all duration-200 text-[#1A1A1A]"
             >
-              <div className="w-8 h-8 bg-yellow-400 border-2 border-black shadow-[2px_2px_0_#000] flex items-center justify-center text-lg">
+              <div className="w-10 h-10 bg-[#F5C518] border-[3px] border-[#1A1A1A] shadow-[3px_3px_0_#1A1A1A] flex items-center justify-center text-xl font-black -rotate-3 transition-transform group-hover:rotate-3">
                 P
               </div>
-              <span className="text-xl md:text-2xl hidden sm:inline-block">
-                Prompts Wardrobe
+              <span className="text-xl md:text-2xl hidden sm:inline-block uppercase tracking-widest drop-shadow-[1px_1px_0_rgba(255,255,255,1)] text-[#1A1A1A] font-black group-hover:translate-x-1 transition-transform">
+                Wardrobe
               </span>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-2 text-sm font-bold">
-              <NavLink to="/dashboard">Dashboard</NavLink>
-              <NavLink to="/dashboard/new">New Prompt</NavLink>
-              <NavLink to="/public">Public Feed</NavLink>
+              {user && (
+                <>
+                  <NavLink to="/dashboard">Dashboard</NavLink>
+                  <NavLink to="/dashboard/new">New Prompt</NavLink>
+                </>
+              )}
 
               {user && (
                 <>
@@ -151,8 +156,8 @@ export function AppShell({ children }) {
                       size="sm"
                       onClick={handleExport}
                       isLoading={isExporting}
-                      title="Export prompts"
-                      className="!px-2"
+                      aria-label="Export prompts"
+                      className="px-2!"
                     >
                       <Download size={18} />
                     </Button>
@@ -161,15 +166,15 @@ export function AppShell({ children }) {
                       size="sm"
                       onClick={handleImportClick}
                       isLoading={isImporting}
-                      title="Import prompts"
-                      className="!px-2"
+                      aria-label="Import prompts"
+                      className="px-2!"
                     >
                       <Upload size={18} />
                     </Button>
                   </div>
 
-                  <Link to="/settings">
-                    <Button variant="ghost" size="sm" className="!px-2">
+                  <Link to="/settings" aria-label="Open settings">
+                    <Button variant="ghost" size="sm" className="px-2!">
                       <Settings size={18} />
                     </Button>
                   </Link>
@@ -179,11 +184,18 @@ export function AppShell({ children }) {
                   </Button>
                 </>
               ) : (
-                <Link to="/auth/login">
-                  <Button variant="primary" size="sm">
-                    Login
-                  </Button>
-                </Link>
+                <div className="flex gap-2">
+                  <Link to="/auth/login">
+                    <Button variant="ghost" size="sm">
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link to="/auth/signup">
+                    <Button variant="primary" size="sm">
+                      Sign up
+                    </Button>
+                  </Link>
+                </div>
               )}
             </div>
 
@@ -192,8 +204,13 @@ export function AppShell({ children }) {
               {user && <BellIcon userId={user.id} />}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 border-2 border-black bg-white hover:bg-yellow-100 active:translate-y-0.5 active:shadow-none shadow-[4px_4px_0_#000] transition-all"
-                aria-label="Toggle menu"
+                className="p-2 rounded-full border border-black/10 bg-white hover:bg-gray-50 transition-colors"
+                aria-label={
+                  isMobileMenuOpen
+                    ? "Close navigation menu"
+                    : "Open navigation menu"
+                }
+                aria-expanded={isMobileMenuOpen}
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -203,17 +220,18 @@ export function AppShell({ children }) {
 
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t-2 border-black bg-white p-4 flex flex-col gap-4 max-h-[85vh] overflow-y-auto">
+          <div className="lg:hidden border-t border-black/5 bg-white/95 backdrop-blur-md p-4 flex flex-col gap-4 max-h-[85vh] overflow-y-auto">
             <nav className="flex flex-col gap-3 font-semibold">
-              <NavLink to="/dashboard" className="w-full text-center">
-                Dashboard
-              </NavLink>
-              <NavLink to="/dashboard/new" className="w-full text-center">
-                New Prompt
-              </NavLink>
-              <NavLink to="/public" className="w-full text-center">
-                Public Feed
-              </NavLink>
+              {user && (
+                <>
+                  <NavLink to="/dashboard" className="w-full text-center">
+                    Dashboard
+                  </NavLink>
+                  <NavLink to="/dashboard/new" className="w-full text-center">
+                    New Prompt
+                  </NavLink>
+                </>
+              )}
 
               {user && (
                 <>
@@ -269,15 +287,26 @@ export function AppShell({ children }) {
                 </Button>
               </div>
             ) : (
-              <Link
-                to="/auth/login"
-                className="w-full"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Button variant="primary" className="w-full justify-center">
-                  Login
-                </Button>
-              </Link>
+              <div className="flex flex-col gap-3">
+                <Link
+                  to="/auth/login"
+                  className="w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Button variant="ghost" className="w-full justify-center">
+                    Log in
+                  </Button>
+                </Link>
+                <Link
+                  to="/auth/signup"
+                  className="w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Button variant="primary" className="w-full justify-center">
+                    Sign up
+                  </Button>
+                </Link>
+              </div>
             )}
           </div>
         )}
@@ -292,7 +321,9 @@ export function AppShell({ children }) {
           aria-label="Import JSON file"
         />
       </header>
-      <main className="container mx-auto px-4 py-8 flex flex-col gap-6 max-w-7xl">
+      <main
+        className={`mx-auto flex flex-col w-full ${isLandingPage ? "max-w-none px-0 py-0" : "px-4 py-8 gap-6 max-w-7xl"}`}
+      >
         {children}
       </main>
     </div>
@@ -304,9 +335,9 @@ function navClass(pathname, href) {
   const active =
     href === "/dashboard" ? pathname === href : pathname.startsWith(href);
 
-  return `px-3 py-2 border-2 border-black text-sm font-bold transition-all outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+  return `px-4 py-2 rounded-full text-sm font-bold transition-all outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 ${
     active
-      ? "bg-yellow-300 shadow-[2px_2px_0_#000] translate-y-px text-black"
-      : "bg-white hover:bg-yellow-100 hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#000] active:translate-y-px active:shadow-none text-black"
+      ? "bg-brand-yellow text-brand-soft-black"
+      : "text-brand-soft-black/70 hover:bg-black/5 hover:text-brand-soft-black"
   }`;
 }

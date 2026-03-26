@@ -1,13 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  useParams,
+  notFound,
+} from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { UserCircle2 } from "lucide-react";
 import { useProfile } from "../../../hooks/useProfiles";
-import {
-  useFollowCounts,
-  useIsFollowing,
-  useToggleFollow,
-} from "../../../hooks/useFollow";
+import { useFollowCounts } from "../../../hooks/useFollow";
 import { usePublicPrompts } from "../../../hooks/usePrompts";
 import { Button } from "../../../components/ui/Button";
 import { ErrorState } from "../../../components/ui/ErrorState";
@@ -16,6 +17,7 @@ import { EmptyState } from "../../../components/ui/EmptyState";
 import { ProfileHeaderSkeleton } from "../../../components/ui/ProfileHeaderSkeleton";
 import { useAuth } from "../../../hooks/useAuth";
 import { ModelUsageChart } from "../../../components/profile/ModelUsageChart";
+import { FollowButton } from "../../../components/profile/FollowButton";
 
 const PAGE_SIZE = 9;
 
@@ -41,12 +43,7 @@ function ProfilePage() {
   );
   const { data: prompts, isLoading: promptsLoading } =
     usePublicPrompts(filters);
-  const { data: followCounts, isLoading: followCountsLoading } =
-    useFollowCounts(userId);
-  const { data: isFollowing = false, isLoading: isFollowingLoading } =
-    useIsFollowing(user?.id, userId);
-  const { mutate: toggleFollow, isPending: toggleFollowPending } =
-    useToggleFollow(user?.id);
+  const { data: followCounts } = useFollowCounts(userId);
 
   if (isLoading) return <ProfileHeaderSkeleton />;
   if (error)
@@ -61,8 +58,6 @@ function ProfilePage() {
 
   const isOwnProfile = user?.id === userId;
   const profileUserId = profile?.user_id ?? userId;
-  const followButtonLoading =
-    toggleFollowPending || isFollowingLoading || followCountsLoading;
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-6 py-8">
@@ -133,16 +128,10 @@ function ProfilePage() {
 
           <div className="flex flex-col gap-3 min-w-35">
             {!isOwnProfile ? (
-              <Button
-                variant={isFollowing ? "secondary" : "primary"}
-                isLoading={followButtonLoading}
-                onClick={() =>
-                  toggleFollow({ profileUserId: userId, isFollowing })
-                }
+              <FollowButton
+                creatorId={userId}
                 className="w-full bg-[#1A1A1A] text-white border-[3px] border-[#1A1A1A] hover:bg-white hover:text-[#1A1A1A] shadow-[4px_4px_0_#1A1A1A] py-3 text-lg uppercase tracking-wide"
-              >
-                {isFollowing ? "Unfollow" : "Follow"}
-              </Button>
+              />
             ) : (
               <Link to="/settings" className="w-full">
                 <Button
@@ -217,5 +206,30 @@ function ProfilePage() {
 
 export const Route = createFileRoute("/profile/$userId/")({
   validateSearch: (search) => search,
+  loader: async ({ params, context }) => {
+    const { data, error } = await context.supabase
+      .from("profiles")
+      .select("user_id") // Checking existence
+      .eq("user_id", params.userId)
+      .single();
+
+    if (error || !data) {
+      throw notFound();
+    }
+    return data;
+  },
   component: ProfilePage,
+  notFoundComponent: () => (
+    <EmptyState
+      title="User not found"
+      description="This user profile does not exist or may be private."
+    />
+  ),
+  errorComponent: () => (
+    <ErrorState
+      title="Failed to load profile"
+      message="There was a problem loading this profile."
+    />
+  ),
+  pendingComponent: () => <ProfileHeaderSkeleton />,
 });

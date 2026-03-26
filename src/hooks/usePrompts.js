@@ -1,5 +1,10 @@
 import { useMemo } from "react";
-import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import { supabase } from "../lib/supabase";
 import { ensureProfileExists } from "../lib/profile";
 import { useAuth } from "./useAuth";
@@ -123,7 +128,14 @@ async function fetchPublicPrompt(promptId) {
     )
     .eq("id", promptId)
     .single();
+
   if (error) throw error;
+
+  // Transform data if profiles is an array
+  if (Array.isArray(data.profiles)) {
+    data.profiles = data.profiles[0] || null;
+  }
+
   return data;
 }
 
@@ -362,7 +374,8 @@ export function usePublicPromptsFeed({ category, searchQuery } = {}) {
     queryFn: async ({ pageParam = 0 }) => {
       let query = supabase
         .from("prompts")
-        .select(`
+        .select(
+          `
           id,
           title,
           content,
@@ -373,10 +386,12 @@ export function usePublicPromptsFeed({ category, searchQuery } = {}) {
           user_id,
           token_estimate,
           profiles (
+            id:user_id,
             display_name,
             avatar_url
           )
-        `)
+        `,
+        )
         .eq("is_public", true)
         .order("created_at", { ascending: false })
         .range(pageParam * PAGE_SIZE, pageParam * PAGE_SIZE + PAGE_SIZE - 1);
@@ -387,7 +402,7 @@ export function usePublicPromptsFeed({ category, searchQuery } = {}) {
 
       if (searchQuery) {
         query = query.or(
-          `title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`
+          `title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`,
         );
       }
 

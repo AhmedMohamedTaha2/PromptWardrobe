@@ -13,6 +13,7 @@ import { RatingStars } from "../../../components/ui/RatingStars";
 import { usePublicPrompt, useUpvotes } from "../../../hooks/usePrompts";
 import { useAuth } from "../../../hooks/useAuth";
 import { useUpvotePrompt } from "../../../hooks/useUpvotePrompt";
+import { FollowButton } from "../../../components/profile/FollowButton";
 
 function PublicPromptDetail() {
   const { promptId } = useParams({ from: "/public/$promptId/" });
@@ -58,9 +59,15 @@ function PublicPromptDetail() {
                 Public
               </span>
             </div>
-            {author?.display_name && (
-              <p className="text-sm text-slate-600">By {author.display_name}</p>
-            )}
+            <div className="flex gap-2 items-center">
+              <p className="text-sm text-slate-600">
+                By {author?.display_name || "Anonymous"}
+              </p>
+              <FollowButton
+                creatorId={prompt.user_id}
+                className="h-6 text-xs px-2 py-0 min-w-0"
+              />
+            </div>
             {prompt.published_at && (
               <p className="text-xs text-slate-500">
                 Published {format(new Date(prompt.published_at), "PPP p")}

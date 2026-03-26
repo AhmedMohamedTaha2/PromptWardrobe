@@ -18,6 +18,7 @@ export function RatingStars({
             className={`group ${readOnly ? "cursor-default" : ""}`}
             onClick={() => !readOnly && onChange?.(index + 1)}
             disabled={readOnly}
+            aria-label={`Rate ${index + 1} out of 5 stars`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

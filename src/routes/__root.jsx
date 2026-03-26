@@ -16,15 +16,27 @@ export const Route = createRootRouteWithContext()({
       location.pathname.startsWith("/public") ||
       location.pathname.startsWith("/profile") ||
       location.pathname === "/"; // Allow landing page
-    const { data, error } = await context.supabase.auth.getSession();
-    if (error) throw error;
-    const session = data.session;
-    if (!session && !isAuthRoute && !isPublicRoute) {
-      throw redirect({ to: "/auth/login" });
+
+    const {
+      data: { session },
+      error,
+    } = await context.supabase.auth.getSession();
+
+    if (error) {
+      console.error("Auth session error:", error);
     }
+
+    if (!session && !isAuthRoute && !isPublicRoute) {
+      throw redirect({
+        to: "/auth/login",
+        search: { redirect: location.href },
+      });
+    }
+
     if (session && isAuthRoute) {
       throw redirect({ to: "/dashboard" });
     }
+
     return { session };
   },
   component: () => (
@@ -35,6 +47,10 @@ export const Route = createRootRouteWithContext()({
         </Suspense>
       </AppShell>
     </ErrorBoundary>
+  ),
+  pendingComponent: () => <PageLoader message="Loading page..." />,
+  errorComponent: () => (
+    <ErrorState title="Error" message="Something broke loading this page." />
   ),
   notFoundComponent: () => (
     <ErrorState title="Not found" message="This page does not exist." />

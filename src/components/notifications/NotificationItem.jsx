@@ -3,11 +3,14 @@ import { formatDistanceToNow } from "date-fns";
 import { useMarkRead } from "../../hooks/useNotifications";
 
 function getNotificationMessage(type, payload) {
-  if (type === "new_prompt_from_followed") {
-    return `${payload?.author_name ?? "Someone"} published a new prompt: "${payload?.prompt_title ?? "Untitled"}"`;
+  if (type === "new_prompt_from_followed" || type === "new_prompt") {
+    return `${payload?.author_name ?? "A creator you follow"} published a new prompt: "${payload?.prompt_title ?? payload?.title ?? "Untitled"}"`;
   }
   if (type === "prompt_upvoted") {
     return `${payload?.author_name ?? "Someone"} upvoted your prompt: "${payload?.prompt_title ?? "Untitled"}"`;
+  }
+  if (type === "new_follower") {
+    return `Someone started following you!`;
   }
   return "You have a new notification";
 }
@@ -22,7 +25,12 @@ export function NotificationItem({ notification, userId }) {
   function handleClick() {
     if (isUnread) markRead(id);
 
-    if (type === "new_prompt_from_followed" || type === "prompt_upvoted") {
+    if (type === "new_prompt_from_followed" || type === "new_prompt") {
+      navigate({
+        to: "/public/$promptId",
+        params: { promptId: payload.prompt_id },
+      });
+    } else if (type === "prompt_upvoted") {
       navigate({
         to: "/dashboard/$promptId",
         params: { promptId: payload.prompt_id },

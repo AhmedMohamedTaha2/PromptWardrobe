@@ -1,4 +1,4 @@
-import { useNavigate, useMatch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 const categories = [
   { value: "all", label: "All" },
@@ -13,9 +13,9 @@ const categories = [
 ];
 
 export function CategoryTabs() {
-  const match = useMatch({ from: "/dashboard/" });
-  const navigate = useNavigate({ from: "/dashboard/" });
-  const category = match.search?.category || "all";
+  const search = useSearch({ strict: false });
+  const navigate = useNavigate();
+  const category = search.category || "all";
 
   const handleCategoryChange = (newCategory) => {
     navigate({

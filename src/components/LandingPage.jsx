@@ -7,32 +7,35 @@ import {
   Download,
   ArrowRight,
   Star,
+  Code2,
+  Image as ImageIcon,
+  MessageSquare,
 } from "lucide-react";
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col font-sans selection:bg-[var(--color-accent)] selection:text-[var(--text-on-yellow)]">
+    <div className="min-h-screen bg-[var(--background)] flex flex-col font-sans selection:bg-[var(--color-accent)] selection:text-black">
       {/* Navigation */}
-      <nav className="navbar sticky top-0 z-50 px-6 py-4">
+      <nav className="sticky top-0 z-50 px-6 py-4 bg-[var(--background)]/90 backdrop-blur-sm border-b-4 border-black">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center border-[3px] border-[var(--color-accent)] bg-[var(--color-accent)] shadow-[3px_3px_0_var(--color-accent)]">
-              <Database className="h-6 w-6 text-[var(--color-black)]" />
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center border-4 border-black bg-[var(--color-accent)] shadow-[4px_4px_0_0_#000] rounded-xl">
+              <Database className="h-6 w-6 text-black" />
             </div>
-            <span className="text-xl font-black tracking-tight text-[var(--color-black)]">
+            <span className="text-2xl font-black tracking-tighter text-black uppercase">
               Prompts Wardrobe
             </span>
           </div>
           <div className="flex gap-4 items-center">
             <Link
               to="/auth/login"
-              className="text-base font-bold text-[var(--color-black)] hover:text-[var(--color-accent)] transition-colors"
+              className="text-lg font-bold text-black hover:text-[var(--color-accent)] transition-colors"
             >
               Sign In
             </Link>
             <Link
               to="/auth/signup"
-              className="hidden sm:inline-flex btn--primary"
+              className="hidden sm:inline-flex items-center justify-center bg-black text-white hover:bg-neutral-800 border-4 border-black rounded-xl px-6 py-2.5 font-bold shadow-[4px_4px_0_0_#fae583] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#fae583] transition-all"
             >
               Get Started
             </Link>
@@ -40,187 +43,176 @@ export function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section — Split Layout */}
-      <header className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 lg:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Copy (60%) */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left space-y-8">
-            <div className="inline-flex items-center gap-2 border-[2px] border-[var(--color-accent)] bg-[var(--color-black)] px-4 py-1.5 text-xs font-black uppercase tracking-wider shadow-[3px_3px_0_var(--color-accent)] text-[var(--color-white)]">
-              <Sparkles className="h-3 w-3 text-[var(--color-accent)]" />
+      {/* Main Bento Grid Container */}
+      <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[200px] gap-6">
+          {/* Hero Bento - Spans 4 cols on mobile, 3 on md, 2 rows */}
+          <div className="col-span-1 md:col-span-3 row-span-2 bg-[#ffdb33] border-4 border-black shadow-[8px_8px_0_0_#000] rounded-3xl p-8 md:p-12 flex flex-col justify-between relative overflow-hidden group">
+            <div className="inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 font-black uppercase tracking-wider shadow-[4px_4px_0_0_#000] text-black w-max rounded-full mb-6 z-10">
+              <Sparkles className="h-4 w-4 text-[#ffdb33]" fill="#000" />
               <span>v1.0.0 Now Available</span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.9] text-[var(--color-black)]">
-              Stop losing your{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10 text-[var(--color-accent)]">
+            <div className="z-10 relative">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter leading-[0.9] text-black uppercase mb-6 drop-shadow-sm">
+                Stop losing your
+                <br />
+                <span className="bg-black text-[#ffdb33] px-4 py-1 inline-block mt-2 -rotate-1 border-4 border-black">
                   best prompts
                 </span>
-                <span className="absolute bottom-2 left-0 w-full h-3 bg-[var(--color-accent)]/20 -z-10"></span>
-              </span>{" "}
-              in chat history.
-            </h1>
+              </h1>
+              <p className="max-w-xl text-xl font-bold text-black border-l-4 border-black pl-4 py-2 bg-white/50 backdrop-blur-sm rounded-r-xl">
+                A personal wardrobe for your AI prompts. Organize, rate, and
+                refine your collection in a privacy-focused library.
+              </p>
+            </div>
 
-            <p className="max-w-xl text-xl font-bold text-[var(--color-muted)] leading-relaxed">
-              A personal wardrobe for your AI prompts. Organize, rate, and
-              refine your collection in a privacy-focused library.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mt-8 z-10">
               <Link
                 to="/auth/signup"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 btn--primary text-lg"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black text-white px-8 py-4 text-xl font-black uppercase tracking-wider border-4 border-black shadow-[6px_6px_0_0_#fff] hover:-translate-y-1 hover:shadow-[8px_8px_0_0_#fff] transition-all rounded-2xl"
               >
                 Start for Free <ArrowRight className="h-6 w-6 stroke-[3px]" />
               </Link>
-              <Link
-                to="/auth/login"
-                className="w-full sm:w-auto inline-flex items-center justify-center btn--ghost text-[var(--color-black)] border-[var(--color-black)] hover:bg-[var(--color-accent)] transition-colors"
-                style={{
-                  border: "3px solid var(--color-black)",
-                  boxShadow: "3px 3px 0 var(--color-black)",
-                }}
-              >
-                Log In
-              </Link>
+            </div>
+
+            {/* Decorative background element */}
+            <Database className="absolute -bottom-10 -right-10 w-96 h-96 text-black opacity-10 -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+          </div>
+
+          {/* Quick Stat Bento - 1 col, 1 row */}
+          <div className="col-span-1 md:col-span-1 row-span-1 bg-white border-4 border-black shadow-[6px_6px_0_0_#000] rounded-3xl p-6 flex flex-col items-center justify-center relative overflow-hidden group hover:-translate-y-1 transition-transform">
+            <span className="bg-[#fae583] border-2 border-black rounded-full px-3 py-1 text-xs font-black uppercase absolute top-4 right-4 shadow-[2px_2px_0_0_#000]">
+              Trending
+            </span>
+            <div className="flex gap-1 mb-2">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Star key={i} className="w-6 h-6 fill-black text-black" />
+              ))}
+            </div>
+            <div className="text-xl font-black uppercase text-center mt-2">
+              Rate & Refine
+            </div>
+            <p className="text-sm font-bold text-neutral-600 text-center mt-2">
+              Track what works
+            </p>
+          </div>
+
+          {/* Code Accent Bento - 1 col, 1 row */}
+          <div className="col-span-1 md:col-span-1 row-span-1 bg-black text-white border-4 border-black shadow-[6px_6px_0_0_#ffdb33] rounded-3xl p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform">
+            <div className="flex justify-between items-start">
+              <Code2 className="w-8 h-8 text-[#ffdb33]" />
+              <div className="bg-white/20 px-2 py-1 rounded text-xs font-mono font-bold">
+                #CODE
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-black tracking-tighter text-[#ffdb33]">
+                100+
+              </div>
+              <div className="text-sm font-bold uppercase mt-1">
+                Dev Prompts
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Visuals (40%) */}
-          <div
-            className="lg:col-span-5 relative h-96 hidden lg:block"
-            aria-hidden="true"
-          >
-            {/* Decorative Card Stack */}
-            {/* Back card */}
-            <div className="absolute top-10 left-10 w-full max-w-sm aspect-[3/4] bg-[var(--color-white)] border-[3px] border-[var(--color-black)] shadow-[var(--shadow-retro)] rotate-6 z-10 p-6 flex flex-col opacity-60"></div>
-
-            {/* Middle card */}
-            <div className="absolute top-6 left-6 w-full max-w-sm aspect-[3/4] bg-[var(--color-white)] border-[3px] border-[var(--color-black)] shadow-[var(--shadow-retro)] rotate-3 z-20 p-6 flex flex-col opacity-80"></div>
-
-            {/* Front card */}
-            <div className="absolute top-0 left-0 w-full max-w-sm aspect-[3/4] retro-card bg-[var(--color-white)] -rotate-3 z-30 p-6 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300 shadow-[var(--shadow-retro)] border-[var(--border-thick)]">
-              <div>
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="font-bold text-xl uppercase text-[var(--color-black)]">
-                    Character Gen
-                  </h3>
-                  <div className="bg-[var(--color-tag-green)] text-[var(--color-black)] px-2 py-0.5 text-xs font-black uppercase border-2 border-[var(--color-black)]">
-                    Public
-                  </div>
-                </div>
-                <p className="font-mono text-xs mb-4 text-[var(--color-muted)]">
-                  TOKENS: 145
-                </p>
-                <div className="font-serif italic text-lg leading-snug border-l-[3px] border-[var(--color-accent)] pl-4 py-2 text-[var(--color-black)]">
-                  "Create a cyberpunk detective with a noir backstory and a
-                  robotic arm..."
-                </div>
-              </div>
-              <div className="mt-6 flex justify-between items-center border-t-[3px] border-[#EEE] pt-4">
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-[var(--color-accent)] text-[var(--color-black)] stroke-1"
-                    />
-                  ))}
-                </div>
-                <span className="font-bold text-sm text-[var(--color-muted)]">
-                  GPT-4
-                </span>
-              </div>
+          {/* Feature 1: Organize - Spans 2 cols, 1 row */}
+          <div className="col-span-1 md:col-span-2 row-span-1 bg-[#fae583] border-4 border-black shadow-[6px_6px_0_0_#000] rounded-3xl p-6 flex items-center gap-6 group hover:bg-[#ffdb33] transition-colors">
+            <div className="h-20 w-20 shrink-0 flex items-center justify-center bg-white border-4 border-black rounded-2xl shadow-[4px_4px_0_0_#000] group-hover:-rotate-6 transition-transform">
+              <Database className="h-10 w-10 text-black" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-2">
+                Organize Your Chaos
+              </h3>
+              <p className="text-base font-bold text-neutral-800 leading-snug">
+                Stop scrolling through chat logs. Tag by category and keep ideas
+                one click away.
+              </p>
             </div>
           </div>
-        </div>
-      </header>
 
-      {/* Features Bento Grid */}
-      <section className="border-y-[3px] border-[#333] py-20 px-6">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-[minmax(250px,auto)]">
-            {/* Main feature - span 2 cols x 2 rows (large square) */}
-            <div className="md:col-span-2 md:row-span-2 p-8 retro-card flex flex-col justify-between group h-full">
-              <div>
-                <div className="mb-6 inline-flex h-16 w-16 items-center justify-center border-[3px] border-[var(--color-black)] bg-[var(--color-accent)] shadow-[3px_3px_0_var(--color-black)]">
-                  <Database className="h-8 w-8 text-[var(--color-black)]" />
-                </div>
-                <h3 className="text-4xl font-black mb-6 uppercase tracking-tight text-[var(--color-black)]">
-                  Organize Your Chaos
-                </h3>
-                <p className="text-2xl text-[var(--color-muted)] font-bold leading-relaxed max-w-lg">
-                  Stop scrolling through endless chat logs. Tag prompts by
-                  category (Coding, Writing, Image Gen) and keep your best ideas
-                  just one click away.
-                </p>
-              </div>
-              <div className="mt-12 flex gap-3 flex-wrap">
-                <span className="bg-[var(--color-tag-yellow)] text-[var(--color-black)] px-3 py-1 font-black uppercase text-sm border-2 border-[var(--color-black)]">
-                  #ROLEPLAY
-                </span>
-                <span className="bg-[var(--color-tag-yellow)] text-[var(--color-black)] px-3 py-1 font-black uppercase text-sm border-2 border-[var(--color-black)]">
-                  #CODING
-                </span>
-                <span className="bg-[var(--color-tag-yellow)] text-[var(--color-black)] px-3 py-1 font-black uppercase text-sm border-2 border-[var(--color-black)]">
-                  #MIDJOURNEY
-                </span>
-              </div>
+          {/* Feature 2: Search - Spans 2 cols, 1 row */}
+          <div className="col-span-1 md:col-span-2 row-span-1 bg-white border-4 border-black shadow-[6px_6px_0_0_#000] rounded-3xl p-6 flex items-center gap-6 group hover:translate-x-1 transition-transform">
+            <div className="h-20 w-20 shrink-0 flex items-center justify-center bg-black border-4 border-black rounded-2xl shadow-[4px_4px_0_0_#fae583] group-hover:rotate-6 transition-transform">
+              <Search className="h-10 w-10 text-[#ffdb33]" />
             </div>
-
-            {/* Smaller features - each takes 1 cell */}
-            <div className="retro-card p-8 group flex flex-col justify-between">
-              <div>
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center border-[3px] border-[var(--color-black)] bg-[var(--color-white)] shadow-[3px_3px_0_var(--color-black)]">
-                  <Search className="h-6 w-6 text-[var(--color-black)]" />
-                </div>
-                <h3 className="text-xl font-black mb-2 uppercase text-[var(--color-black)]">
-                  Instant Search
-                </h3>
-                <p className="text-[var(--color-muted)] font-medium">
-                  Full-text search across your entire prompt library. Find that
-                  one prompt from 3 months ago in milliseconds.
-                </p>
-              </div>
+            <div>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-2">
+                Instant Search
+              </h3>
+              <p className="text-base font-bold text-neutral-700 leading-snug">
+                Full-text search. Find that prompt from 3 months ago in
+                milliseconds.
+              </p>
             </div>
+          </div>
 
-            <div className="retro-card p-8 group flex flex-col justify-between">
-              <div>
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center border-[3px] border-[var(--color-black)] bg-[var(--color-white)] shadow-[3px_3px_0_var(--color-black)]">
-                  <ShieldCheck className="h-6 w-6 text-[var(--color-black)]" />
-                </div>
-                <h3 className="text-xl font-black mb-2 uppercase text-[var(--color-black)]">
-                  Private First
-                </h3>
-                <p className="text-[var(--color-muted)] font-medium">
-                  Your prompts are yours alone. We don't train models on your
-                  data. Secure and private by default.
-                </p>
-              </div>
+          {/* Small Feature Bento 1 */}
+          <div className="col-span-1 md:col-span-1 row-span-1 bg-white border-4 border-black shadow-[6px_6px_0_0_#000] rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+            <ShieldCheck className="w-10 h-10 text-black mb-4" />
+            <div>
+              <h3 className="text-xl font-black uppercase text-black mb-1">
+                Private First
+              </h3>
+              <p className="text-xs font-bold text-neutral-600">
+                Your prompts are yours alone.
+              </p>
             </div>
+          </div>
 
-            <div className="retro-card p-8 group flex flex-col justify-between">
-              <div>
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center border-[3px] border-[var(--color-black)] bg-[var(--color-white)] shadow-[3px_3px_0_var(--color-black)]">
-                  <Download className="h-6 w-6 text-[var(--color-black)]" />
-                </div>
-                <h3 className="text-xl font-black mb-2 uppercase text-[var(--color-black)]">
-                  No Lock-in
-                </h3>
-                <p className="text-[var(--color-muted)] font-medium">
-                  Download your entire collection as JSON anytime. Your data
-                  belongs to you, always.
-                </p>
-              </div>
+          {/* Small Feature Bento 2 */}
+          <div className="col-span-1 md:col-span-1 row-span-1 bg-white border-4 border-black shadow-[6px_6px_0_0_#000] rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+            <Download className="w-10 h-10 text-black mb-4" />
+            <div>
+              <h3 className="text-xl font-black uppercase text-black mb-1">
+                No Lock-in
+              </h3>
+              <p className="text-xs font-bold text-neutral-600">
+                Export anywhere as JSON.
+              </p>
+            </div>
+          </div>
+
+          {/* Tag Cloud / Example Bento - Spans 2 cols, 1 row */}
+          <div className="col-span-1 md:col-span-2 row-span-1 bg-[#f4f4f5] border-4 border-black shadow-[6px_6px_0_0_#000] rounded-3xl p-6 overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+              <MessageSquare className="w-32 h-32" />
+            </div>
+            <h3 className="text-xl font-black uppercase text-black mb-4">
+              Popular Tags
+            </h3>
+            <div className="flex gap-3 flex-wrap relative z-10">
+              <span className="bg-white text-black px-4 py-2 font-black uppercase text-sm border-4 border-black shadow-[3px_3px_0_0_#000] rounded-full hover:-translate-y-1 transition-transform cursor-default">
+                #ROLEPLAY
+              </span>
+              <span className="bg-black text-[#ffdb33] px-4 py-2 font-black uppercase text-sm border-4 border-black shadow-[3px_3px_0_0_#fae583] rounded-full hover:-translate-y-1 transition-transform cursor-default">
+                #CODING
+              </span>
+              <span className="bg-[#fae583] text-black px-4 py-2 font-black uppercase text-sm border-4 border-black shadow-[3px_3px_0_0_#000] rounded-full hover:-translate-y-1 transition-transform cursor-default">
+                #MIDJOURNEY
+              </span>
+              <span className="bg-white text-black px-4 py-2 font-black uppercase text-sm border-4 border-black shadow-[3px_3px_0_0_#000] rounded-full hover:-translate-y-1 transition-transform cursor-default hidden sm:inline-block">
+                #WRITING
+              </span>
             </div>
           </div>
         </div>
-      </section>
+      </main>
 
       {/* Footer */}
-      <footer className="py-12 text-center border-t-[3px] border-[#333]">
-        <p className="font-black text-[var(--color-black)] uppercase tracking-wide">
-          Prompts Wardrobe © 2026
-        </p>
+      <footer className="py-8 mt-12 bg-black text-white border-t-8 border-[#ffdb33]">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Database className="h-6 w-6 text-[#ffdb33]" />
+            <span className="font-black text-xl uppercase tracking-wider">
+              Prompts Wardrobe
+            </span>
+          </div>
+          <p className="font-bold text-neutral-400 text-sm uppercase tracking-wide">
+            © 2026 Crafted with style.
+          </p>
+        </div>
       </footer>
     </div>
   );

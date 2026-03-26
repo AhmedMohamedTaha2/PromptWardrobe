@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { LandingPage } from "../components/LandingPage";
+import { ModernLandingPage } from "../components/ModernLandingPage";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
@@ -8,5 +8,5 @@ export const Route = createFileRoute("/")({
       throw redirect({ to: "/dashboard" });
     }
   },
-  component: LandingPage,
+  component: ModernLandingPage,
 });

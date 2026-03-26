@@ -1,17 +1,46 @@
-export function Input({ label, description, error, ...props }) {
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+
+export function Input({ label, description, error, className, id, ...props }) {
+  // Generate a unique ID if none provided, for accessibility
+  const inputId = id || props.name;
+
   return (
-    <label className="flex flex-col gap-1 text-left text-sm font-medium text-slate-900">
-      {label && <span>{label}</span>}
+    <div className={cn("flex flex-col gap-1.5", className)}>
+      {label && (
+        <label
+          htmlFor={inputId}
+          className="text-left text-sm font-bold text-brand-black"
+        >
+          {label}
+        </label>
+      )}
       {description && (
-        <span className="text-xs text-slate-500">{description}</span>
+        <span className="text-xs text-brand-gray font-medium">
+          {description}
+        </span>
       )}
       <input
-        className="w-full rounded-none border-2 border-black bg-white px-3 py-2 text-base font-medium text-slate-900 shadow-[3px_3px_0_#000] focus:outline-none focus:ring-2 focus:ring-black"
+        id={inputId}
+        className={cn(
+          "w-full rounded-none border-2 border-brand-black bg-white px-3 py-2.5",
+          "text-base font-medium text-brand-black placeholder:text-brand-black/40",
+          "shadow-retro transition-all",
+          "focus:outline-none focus:ring-2 focus:ring-brand-yellow/50 focus:translate-y-[1px] focus:shadow-none",
+          "disabled:opacity-50 disabled:cursor-not-allowed",
+          error && "border-brand-red focus:ring-brand-red/50",
+        )}
         {...props}
       />
       {error && (
-        <span className="text-xs font-semibold text-red-600">{error}</span>
+        <span className="text-xs font-bold text-brand-red" role="alert">
+          {error}
+        </span>
       )}
-    </label>
+    </div>
   );
 }

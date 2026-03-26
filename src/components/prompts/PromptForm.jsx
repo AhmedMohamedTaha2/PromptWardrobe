@@ -146,7 +146,7 @@ export function PromptForm({ initialData, isEditing }) {
 
       {/* Right Column: Metadata Sidebar */}
       <aside className="flex flex-col gap-6 sticky top-6">
-        <div className="bg-[#FAF8F2] border-[3px] border-[#1A1A1A] p-6 shadow-[5px_5px_0_#1A1A1A] flex flex-col gap-5">
+        <div className="bg-[var(--primaryBG)] border-[3px] border-[#1A1A1A] p-6 shadow-[5px_5px_0_#1A1A1A] flex flex-col gap-5">
           <h3 className="text-xl font-black uppercase border-b-2 border-[#1A1A1A] pb-2 mb-2">
             Metadata
           </h3>

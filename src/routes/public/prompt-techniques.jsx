@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+ 
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { X, Code2 } from "lucide-react";

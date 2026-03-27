@@ -38,34 +38,26 @@
 }
 
 /* ── Global Background & Typography ── */
-body,
-html {
-  background-color: var(--primaryBG, #fff5cb);
-  color: #1a1a1a;
-  font-family: var(--font-body);
+@layer base {
+  html {
+    min-height: 100%;
+    background-color: #f5f0dc;
+    background-image: radial-gradient(circle, #11111118 2px, transparent 1px);
+    background-size: 20px 20px;
+    background-attachment: fixed;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: transparent;
+    color: #1a1a1a;
+    font-family: var(--font-body);
+  }
 }
 
 #root,
 .page-wrapper,
 .app-layout {
-  background-color: var(--primaryBG, #fff5cb);
-  background-image:
-    radial-gradient(
-      ellipse 80% 60% at 0% 50%,
-      rgba(245, 197, 24, 0.15) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 70% 60% at 100% 50%,
-      rgba(160, 210, 240, 0.2) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 60% 50% at 50% 100%,
-      rgba(255, 180, 180, 0.18) 0%,
-      transparent 65%
-    );
-  background-attachment: fixed;
   min-height: 100vh;
 }
 

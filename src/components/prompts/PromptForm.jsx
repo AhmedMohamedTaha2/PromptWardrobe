@@ -98,150 +98,481 @@ export function PromptForm({ initialData, isEditing }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="prompt-form-layout grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-8 items-start"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 340px",
+        gap: "24px",
+        alignItems: "start",
+      }}
     >
       {/* Left Column: Primary Content */}
-      <div className="flex flex-col gap-6">
-        <div className="bg-white border-[3px] border-[#1A1A1A] p-6 shadow-[5px_5px_0_#1A1A1A]">
-          <Input
-            label="Title"
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        {/* Title Card */}
+        <div
+          style={{
+            background: "var(--color-surface)",
+            border: "2.5px solid var(--color-border)",
+            borderRadius: "10px",
+            boxShadow: "6px 6px 0px var(--color-border)",
+            padding: "28px 32px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}
+        >
+          <label
+            style={{
+              fontSize: "0.7rem",
+              fontWeight: 800,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "var(--color-text)",
+            }}
+          >
+            Title
+          </label>
+          <input
             placeholder="Give your prompt a catchy title"
-            error={form.formState.errors.title?.message}
             {...form.register("title")}
-            className="text-lg font-bold border-2 border-[#1A1A1A] focus:shadow-[3px_3px_0_#1A1A1A] transition-all"
+            style={{
+              border: "2.5px solid var(--color-border)",
+              borderRadius: "6px",
+              background: "var(--color-bg)",
+              padding: "12px 16px",
+              fontSize: "1rem",
+              fontWeight: 600,
+              color: "var(--color-text)",
+              outline: "none",
+              transition: "box-shadow 0.15s ease, border-width 0.15s ease",
+            }}
+            onFocus={(e) => {
+              e.target.style.boxShadow = "3px 3px 0px var(--color-border)";
+              e.target.style.borderWidth = "3px";
+            }}
+            onBlur={(e) => {
+              e.target.style.boxShadow = "none";
+              e.target.style.borderWidth = "2.5px";
+            }}
           />
+          {form.formState.errors.title?.message && (
+            <span
+              style={{ fontSize: "0.75rem", fontWeight: 600, color: "#e63946" }}
+            >
+              {form.formState.errors.title?.message}
+            </span>
+          )}
         </div>
 
-        <div className="bg-white border-[3px] border-[#1A1A1A] p-6 shadow-[5px_5px_0_#1A1A1A] flex flex-col gap-4">
-          <div className="flex justify-between items-baseline mb-1">
-            <label className="text-base font-black uppercase tracking-wide text-[#1A1A1A]">
+        {/* Prompt Content Card */}
+        <div
+          style={{
+            background: "var(--color-surface)",
+            border: "2.5px solid var(--color-border)",
+            borderRadius: "10px",
+            boxShadow: "6px 6px 0px var(--color-border)",
+            padding: "28px 32px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+        >
+          {/* Row: section title + token badge */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 800,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "var(--color-text)",
+              }}
+            >
               Prompt Content
-            </label>
-            <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#1A1A1A]/60 bg-gray-100 px-2 py-0.5 border-2 border-[#1A1A1A]/20 rounded-md">
-              <span>~{count} tokens</span>
-              <span className="w-1 h-1 rounded-full bg-[#1A1A1A]/30"></span>
-              <span>{confidence} confidence</span>
-            </div>
+            </span>
+
+            <span
+              style={{
+                fontSize: "0.68rem",
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                border: "2px solid var(--color-border)",
+                borderRadius: "20px",
+                padding: "4px 12px",
+                background: "var(--color-bg)",
+                boxShadow: "2px 2px 0px var(--color-border)",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                color: "var(--color-text)",
+              }}
+            >
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "var(--color-muted)",
+                  display: "inline-block",
+                }}
+              />
+              ~{count} tokens &middot; {confidence} confidence
+            </span>
           </div>
 
-          <Textarea
-            rows={12}
+          <textarea
             placeholder="Paste your prompt here..."
-            error={form.formState.errors.content?.message}
+            rows={14}
             {...form.register("content")}
-            className="font-mono text-sm leading-relaxed border-2 border-[#1A1A1A] focus:shadow-[3px_3px_0_#1A1A1A] transition-all p-4"
+            style={{
+              border: "2.5px solid var(--color-border)",
+              borderRadius: "8px",
+              background: "var(--color-bg)",
+              padding: "16px 18px",
+              fontSize: "0.9rem",
+              lineHeight: 1.7,
+              color: "var(--color-text)",
+              resize: "vertical",
+              outline: "none",
+              fontFamily: "inherit",
+              transition: "box-shadow 0.15s ease",
+            }}
+            onFocus={(e) =>
+              (e.target.style.boxShadow = "4px 4px 0px var(--color-border)")
+            }
+            onBlur={(e) => (e.target.style.boxShadow = "none")}
           />
+          {form.formState.errors.content?.message && (
+            <span
+              style={{ fontSize: "0.75rem", fontWeight: 600, color: "#e63946" }}
+            >
+              {form.formState.errors.content?.message}
+            </span>
+          )}
         </div>
 
-        <div className="bg-white border-[3px] border-[#1A1A1A] p-6 shadow-[5px_5px_0_#1A1A1A]">
-          <Textarea
-            label="Notes & Techniques"
-            rows={4}
+        {/* Notes Card */}
+        <div
+          style={{
+            background: "var(--color-surface)",
+            border: "2.5px solid var(--color-border)",
+            borderRadius: "10px",
+            boxShadow: "6px 6px 0px var(--color-border)",
+            padding: "28px 32px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}
+        >
+          <label
+            style={{
+              fontSize: "0.7rem",
+              fontWeight: 800,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "var(--color-text)",
+            }}
+          >
+            Notes & Techniques
+          </label>
+          <textarea
             placeholder="Add context, tips, or specific parameters..."
+            rows={4}
             {...form.register("notes")}
-            className="border-2 border-[#1A1A1A] focus:shadow-[3px_3px_0_#1A1A1A] transition-all"
+            style={{
+              border: "2.5px solid var(--color-border)",
+              borderRadius: "6px",
+              background: "var(--color-bg)",
+              padding: "12px 16px",
+              fontSize: "0.9rem",
+              lineHeight: 1.6,
+              color: "var(--color-text)",
+              resize: "vertical",
+              outline: "none",
+              fontFamily: "inherit",
+              transition: "box-shadow 0.15s ease",
+            }}
+            onFocus={(e) =>
+              (e.target.style.boxShadow = "3px 3px 0px var(--color-border)")
+            }
+            onBlur={(e) => (e.target.style.boxShadow = "none")}
           />
         </div>
       </div>
 
       {/* Right Column: Metadata Sidebar */}
-      <aside className="flex flex-col gap-6 sticky top-6">
-        <div className="bg-[var(--primaryBG)] border-[3px] border-[#1A1A1A] p-6 shadow-[5px_5px_0_#1A1A1A] flex flex-col gap-5">
-          <h3 className="text-xl font-black uppercase border-b-2 border-[#1A1A1A] pb-2 mb-2">
+      <aside
+        style={{
+          background: "var(--color-surface)",
+          border: "2.5px solid var(--color-border)",
+          borderRadius: "10px",
+          boxShadow: "6px 6px 0px var(--color-border)",
+          padding: "28px 32px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          position: "sticky",
+          top: "24px",
+        }}
+      >
+        {/* Header */}
+        <div>
+          <h3
+            style={{
+              fontSize: "0.75rem",
+              fontWeight: 800,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              margin: 0,
+              color: "var(--color-text)",
+            }}
+          >
             Metadata
           </h3>
+          <hr
+            style={{
+              border: "none",
+              borderTop: "2px solid var(--color-border)",
+              marginTop: "12px",
+            }}
+          />
+        </div>
 
-          <Input
-            label="Model"
+        {/* Model field */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <label
+            style={{
+              color: "var(--color-text)",
+              fontSize: "0.7rem",
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+            }}
+          >
+            Model
+          </label>
+          <input
             placeholder="e.g. GPT-4o, Claude 3"
             {...form.register("model")}
-            className="border-2 border-[#1A1A1A] focus:shadow-[2px_2px_0_#1A1A1A] transition-all bg-white"
+            style={{
+              border: "2.5px solid var(--color-border)",
+              borderRadius: "6px",
+              background: "var(--color-bg)",
+              padding: "10px 14px",
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              color: "var(--color-text)",
+              outline: "none",
+              transition: "box-shadow 0.15s ease",
+            }}
+            onFocus={(e) =>
+              (e.target.style.boxShadow = "3px 3px 0px var(--color-border)")
+            }
+            onBlur={(e) => (e.target.style.boxShadow = "none")}
           />
-
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-bold uppercase tracking-wide text-[#1A1A1A]">
-              Category
-            </label>
-            <div className="relative">
-              <select
-                {...form.register("category")}
-                className="w-full appearance-none bg-white border-2 border-[#1A1A1A] px-3 py-2 text-sm font-bold shadow-[2px_2px_0_#1A1A1A] focus:outline-none focus:translate-y-[1px] focus:shadow-none transition-all cursor-pointer"
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat.toUpperCase().replace(/_/g, " ")}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 border-l-2 border-[#1A1A1A] pl-2">
-                <svg
-                  width="10"
-                  height="6"
-                  viewBox="0 0 10 6"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1 1L5 5L9 1"
-                    stroke="#1A1A1A"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </div>
-            {form.formState.errors.category?.message && (
-              <span className="text-xs font-bold text-red-600 mt-1">
-                {form.formState.errors.category?.message}
-              </span>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-bold uppercase tracking-wide text-[#1A1A1A]">
-              Rating
-            </span>
-            <div className="bg-white border-2 border-[#1A1A1A] p-3 shadow-[2px_2px_0_#1A1A1A] flex justify-center">
-              <RatingStars
-                value={rating ?? 0}
-                onChange={(value) =>
-                  form.setValue("rating", value, { shouldDirty: true })
-                }
-                size={24}
-              />
-            </div>
-          </div>
-
-          <div className="mt-4 pt-4 border-t-2 border-[#1A1A1A]">
-            <label className="flex items-start gap-3 p-3 bg-white border-2 border-[#1A1A1A] shadow-[2px_2px_0_#1A1A1A] cursor-pointer hover:bg-yellow-50 transition-colors">
-              <input
-                type="checkbox"
-                className="mt-1 h-5 w-5 border-2 border-[#1A1A1A] accent-[#F5C518]"
-                {...form.register("is_public")}
-              />
-              <div className="flex flex-col">
-                <span className="font-bold text-[#1A1A1A]">Make Public?</span>
-                <span className="text-xs text-[#1A1A1A]/70 font-medium leading-tight">
-                  Visible to everyone in the community.
-                </span>
-              </div>
-            </label>
-          </div>
-
-          <Button
-            type="submit"
-            isLoading={isPending}
-            disabled={isPending}
-            className="w-full mt-2 py-3 text-base bg-[#F5C518] text-[#1A1A1A] border-[3px] border-[#1A1A1A] shadow-[4px_4px_0_#1A1A1A] hover:translate-y-0.5 hover:shadow-[2px_2px_0_#1A1A1A] active:translate-y-0.5 transition-all font-black uppercase tracking-wide"
-          >
-            {isPending
-              ? "Saving..."
-              : isEditing
-                ? "Update Prompt"
-                : "Save Prompt"}
-          </Button>
         </div>
+
+        {/* Category field */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <label
+            style={{
+              color: "var(--color-text)",
+              fontSize: "0.7rem",
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+            }}
+          >
+            Category
+          </label>
+          <select
+            {...form.register("category")}
+            style={{
+              border: "2.5px solid var(--color-border)",
+              borderRadius: "6px",
+              background: "var(--color-bg)",
+              padding: "10px 14px",
+              fontSize: "0.875rem",
+              fontWeight: 700,
+              appearance: "none",
+              cursor: "pointer",
+              color: "var(--color-text)",
+              outline: "none",
+              transition: "box-shadow 0.15s ease",
+            }}
+            onFocus={(e) =>
+              (e.target.style.boxShadow = "3px 3px 0px var(--color-border)")
+            }
+            onBlur={(e) => (e.target.style.boxShadow = "none")}
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat.toUpperCase().replace(/_/g, " ")}
+              </option>
+            ))}
+          </select>
+          {form.formState.errors.category?.message && (
+            <span
+              style={{ fontSize: "0.75rem", fontWeight: 600, color: "#e63946" }}
+            >
+              {form.formState.errors.category?.message}
+            </span>
+          )}
+        </div>
+
+        {/* Rating */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <label
+            style={{
+              color: "var(--color-text)",
+              fontSize: "0.7rem",
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+            }}
+          >
+            Rating
+          </label>
+          <div
+            style={{
+              border: "2.5px solid var(--color-border)",
+              borderRadius: "6px",
+              background: "var(--color-bg)",
+              padding: "10px 14px",
+              display: "flex",
+              justifyContent: "center",
+              gap: "6px",
+            }}
+          >
+            <RatingStars
+              value={rating ?? 0}
+              onChange={(value) =>
+                form.setValue("rating", value, { shouldDirty: true })
+              }
+              size={24}
+              style={{ gap: "4px" }}
+            />
+          </div>
+        </div>
+
+        {/* Divider */}
+        <hr
+          style={{
+            border: "none",
+            borderTop: "1.5px solid var(--color-border)",
+            opacity: 0.2,
+          }}
+        />
+
+        {/* Make Public toggle */}
+        <label
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "12px",
+            cursor: "pointer",
+            border: "2px solid var(--color-border)",
+            borderRadius: "8px",
+            padding: "14px 16px",
+            background: "var(--color-bg)",
+            boxShadow: "3px 3px 0px var(--color-border)",
+            color: "var(--color-text)",
+            transition: "transform 0.15s ease",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.transform = "translate(-2px, -2px)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.transform = "translate(0, 0)")
+          }
+        >
+          <input
+            type="checkbox"
+            {...form.register("is_public")}
+            style={{
+              marginTop: "2px",
+              accentColor: "var(--color-accent)",
+              width: "16px",
+              height: "16px",
+            }}
+          />
+          <div>
+            <span
+              style={{
+                fontSize: "0.8rem",
+                fontWeight: 800,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                display: "block",
+              }}
+            >
+              Make Public?
+            </span>
+            <span
+              style={{
+                fontSize: "0.72rem",
+                color: "var(--color-muted)",
+                marginTop: "2px",
+                display: "block",
+              }}
+            >
+              Visible to everyone in the community.
+            </span>
+          </div>
+        </label>
+
+        {/* CTA */}
+        <button
+          type="submit"
+          disabled={isPending}
+          style={{
+            background: "var(--color-accent)",
+            color: "var(--color-border)",
+            border: "2.5px solid var(--color-border)",
+            borderRadius: "8px",
+            padding: "16px 24px",
+            fontSize: "0.8rem",
+            fontWeight: 900,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            cursor: isPending ? "not-allowed" : "pointer",
+            boxShadow: "8px 8px 0px var(--color-border)",
+            transition: "transform 0.1s ease, box-shadow 0.1s ease",
+            opacity: isPending ? 0.7 : 1,
+            marginTop: "8px",
+          }}
+          onMouseEnter={(e) => {
+            if (isPending) return;
+            e.target.style.transform = "translate(-2px, -2px)";
+            e.target.style.boxShadow = "10px 10px 0px var(--color-border)";
+          }}
+          onMouseLeave={(e) => {
+            if (isPending) return;
+            e.target.style.transform = "translate(0, 0)";
+            e.target.style.boxShadow = "8px 8px 0px var(--color-border)";
+          }}
+          onMouseDown={(e) => {
+            if (isPending) return;
+            e.target.style.transform = "translate(4px, 4px)";
+            e.target.style.boxShadow = "4px 4px 0px var(--color-border)";
+          }}
+          onMouseUp={(e) => {
+            if (isPending) return;
+            e.target.style.transform = "translate(-2px, -2px)";
+            e.target.style.boxShadow = "10px 10px 0px var(--color-border)";
+          }}
+        >
+          {isPending
+            ? "Saving..."
+            : isEditing
+              ? "Update Prompt"
+              : "Save Prompt"}
+        </button>
       </aside>
     </form>
   );

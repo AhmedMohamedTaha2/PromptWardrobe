@@ -120,6 +120,7 @@ export function AppShell({ children }) {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-2 text-sm font-bold">
+              <NavLink to="/public">Public Feed</NavLink>
               {user && (
                 <>
                   <NavLink to="/dashboard">Dashboard</NavLink>
@@ -222,6 +223,9 @@ export function AppShell({ children }) {
         {isMobileMenuOpen && (
           <div className="lg:hidden border-t border-black/5 bg-white/95 backdrop-blur-md p-4 flex flex-col gap-4 max-h-[85vh] overflow-y-auto">
             <nav className="flex flex-col gap-3 font-semibold">
+              <NavLink to="/public" className="w-full text-center">
+                Public Feed
+              </NavLink>
               {user && (
                 <>
                   <NavLink to="/dashboard" className="w-full text-center">

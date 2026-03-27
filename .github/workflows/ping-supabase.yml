@@ -1,0 +1,57 @@
+name: Ping Supabase to Prevent Pausing
+
+on:
+  schedule:
+    # Runs at 09:00 UTC on Mondays and Thursdays
+    - cron: '0 9 * * 1,4'
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions UI
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Supabase Client
+        run: npm install @supabase/supabase-js
+
+      - name: Ping Supabase Database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          node -e "
+            const { createClient } = require('@supabase/supabase-js');
+            
+            async function ping() {
+              try {
+                const supabaseUrl = process.env.SUPABASE_URL;
+                const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+                
+                if (!supabaseUrl || !supabaseKey) {
+                  throw new Error('Supabase URL or Key is missing from environment variables');
+                }
+                
+                const supabase = createClient(supabaseUrl, supabaseKey);
+                
+                // Pinging the 'prompts' table (most frequently queried in the codebase)
+                const { data, error } = await supabase.from('prompts').select('*').limit(1);
+                
+                if (error) throw error;
+                
+                console.log('✅ Supabase pinged successfully at ' + new Date().toISOString());
+                process.exit(0);
+              } catch (err) {
+                console.error('❌ Failed to ping Supabase:', err.message);
+                process.exit(1); 
+              }
+            }
+            
+            ping();
+          "
